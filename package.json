@@ -38,10 +38,10 @@
     "node-fetch": "^2.6.1",
     "pg-promise": "^10.11.1",
     "simple-statistics": "^7.7.5",
-    "starknet": "^4.22.0",
+    "starknet": "^5.0.0",
     "superagent": "^6.1.0",
     "validator": "^13.9.0",
-    "web3": "^4.9.0"
+    "web3": "^4.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

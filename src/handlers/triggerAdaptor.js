@@ -181,7 +181,7 @@ const main = async (body) => {
   if (
     data[0]?.underlyingTokens?.length &&
     protocolConfig[body.adaptor]?.category === 'Dexes' &&
-    !['balancer-v2', 'curve-dex', 'clipper', 'astroport'].includes(
+    !['balancer-v2', 'curve-dex', 'clipper', 'astroport', 'cetus-amm'].includes(
       body.adaptor
     ) &&
     !['elrond', 'near', 'hedera', 'carbon'].includes(
@@ -207,7 +207,7 @@ const main = async (body) => {
 
     const timestamp7daysAgo = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
     // price endpoint seems to break with too many tokens, splitting it to max 150 per request
-    const maxSize = 150;
+    const maxSize = 100;
     const pages = Math.ceil(uniqueToken.length / maxSize);
     let prices7d_ = [];
     let x = '';
@@ -312,7 +312,9 @@ const main = async (body) => {
       ...p,
       config_id: id, // config PK field
       configID: id, // yield FK field referencing config_id in config
-      symbol: ['USDC+', 'ETH+', 'USDEX+'].some((i) => p.symbol.includes(i))
+      symbol: ['USDC+', 'ETH+', 'USDEX+', 'USD0++', 'ARB++'].some((i) =>
+        p.symbol.includes(i)
+      )
         ? p.symbol
         : utils.formatSymbol(p.symbol),
       tvlUsd: Math.round(p.tvlUsd), // round tvlUsd to integer and apy fields to n-dec

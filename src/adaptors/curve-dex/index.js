@@ -7,6 +7,7 @@ const {
   CRV_API_BASE_URL,
   BLOCKCHAINIDS,
   BLOCKCHAINID_TO_REGISTRIES,
+  OVERRIDE_DATA,
 } = require('./config');
 
 const assetTypeMapping = {
@@ -363,11 +364,17 @@ const main = async () => {
         continue;
       }
 
+      const overrideData = OVERRIDE_DATA?.[blockchainId]?.[address];
+      const symbol =
+        overrideData?.symbol || pool.coins.map((coin) => coin.symbol).join('-');
+      const url =
+        overrideData?.url || `https://curve.fi/#/${blockchainId}/pools`;
+
       defillamaPooldata.push({
         pool: address + '-' + blockchainId,
         chain: utils.formatChain(blockchainId),
         project: 'curve-dex',
-        symbol: pool.coins.map((coin) => coin.symbol).join('-'),
+        symbol,
         tvlUsd,
         apyBase,
         apyReward:
@@ -384,7 +391,7 @@ const main = async () => {
           .flat()
           .filter((i) => i !== '0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32'),
         underlyingTokens,
-        url: `https://curve.fi/#/${blockchainId}/pools`,
+        url,
       });
     }
   };
@@ -415,6 +422,7 @@ const main = async () => {
   const correct = [
     '0x7f90122BF0700F9E7e1F688fe926940E8839F353-avalanche',
     '0x0f9cb53Ebe405d49A0bbdBD291A65Ff571bC83e1-ethereum',
+    '0x7f90122BF0700F9E7e1F688fe926940E8839F353-xdai',
   ];
   return defillamaPooldata.map((p) => ({
     ...p,
